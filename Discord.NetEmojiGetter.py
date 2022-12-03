@@ -5,12 +5,15 @@ from time import sleep
 from os import remove
 
 def wrap_in_colon(string):
+    # Wrap the input string in colons from both sides
     return ':' + string + ':'
 
 
 def transform_name(name):
     name = name.replace('-', '_')
     result = list()
+
+    # Create all other variant of emoji if it contains skin tone
     if "skin_tone" in name:
         if "medium_light_skin_tone" in name:
             result.append(wrap_in_colon(name))
@@ -39,8 +42,10 @@ def transform_name(name):
             result.append(wrap_in_colon(name + "_tone5"))
         else:
             raise Exception(f"Couldn't find this skin tone, name: {name}")
+        # Return result
         return result
 
+    # Else return the name wrapped in colons
     result.append(wrap_in_colon(name))
     return result
 
@@ -49,6 +54,7 @@ def create_current_result(name, value):
     names = transform_name(name)
     result = ""
 
+    # Create result out of names and value
     for curr_name in names:
         result += f"      [\"{curr_name}\"] = \"{value}\",\n"
 
@@ -56,8 +62,10 @@ def create_current_result(name, value):
 
 
 def get_emojis(file):
+    # Ask user for input
     emoji_url = input("Paste the emojipedia url (e.g. https://emojipedia.org/emoji-13.0/) here or write 'end' if you already did all updates you wanted:")
 
+    # Return if user added all new emojis
     if emoji_url == "end":
         return False
 
